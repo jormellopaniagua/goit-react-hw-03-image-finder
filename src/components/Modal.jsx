@@ -1,20 +1,37 @@
 import React from 'react';
-import BasicLightbox from 'basiclightbox';
+import ModalStyle from './styledComponents/ModalStyle';
 
-const Modal = ({ imageUrl, onCloseModal }) => {
-  const handleOpenModal = () => {
-    const instance = BasicLightbox.create(`
-      <div class="modal">
-        <img src="${imageUrl}" />
-      </div>
-    `);
-    instance.show();
+const Modal = ({
+  imageUrl,
+  onCloseModal,
+  onPreviousImageClick,
+  onNextImageClick,
+}) => {
+  const handleOutsideClick = event => {
+    // Si el clic ocurre fuera del contenido del modal, cerramos el modal
+    if (event.target === event.currentTarget) {
+      onCloseModal();
+    }
   };
-
   return (
-    <div className="gallery-item" onClick={handleOpenModal}>
-      <img src={imageUrl} alt="" />
-    </div>
+    <ModalStyle className="gallery-item" onClick={handleOutsideClick}>
+      <div className="cont-button">
+        <button className="cerrar" onClick={onCloseModal}>
+          X
+        </button>
+      </div>
+      <div className="container-modal">
+        <button className="nave" onClick={onPreviousImageClick}>
+          anterior
+        </button>{' '}
+        {/* Botón para mostrar la imagen anterior */}
+        <img src={imageUrl} alt="" width="800" height="600" />
+        <button className="nave" onClick={onNextImageClick}>
+          siguiente
+        </button>{' '}
+        {/* Botón para mostrar la siguiente imagen */}
+      </div>
+    </ModalStyle>
   );
 };
 
